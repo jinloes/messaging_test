@@ -18,16 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by jinloes on 3/26/15.
+ * set spring.rabbitmq.host to change the rabbit host
  */
 @SpringBootApplication
 @RestController
 public class Application {
     public static final List<Message> MESSAGES = new ArrayList<Message>();
+
     static {
         MESSAGES.add(new Message("foo"));
         MESSAGES.add(new Message("baz"));
     }
+
     @RequestMapping("/messages")
     public Map<String, Object> getMessages() {
         return new HashMap<String, Object>() {{
@@ -46,17 +48,24 @@ public class Application {
             return text;
         }
     }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
     public static final String queueName = "spring-boot";
+    public static final String fileQueueName = "spring-boot-file";
 
     @Autowired private RabbitTemplate rabbitTemplate;
 
     @Bean
     public Queue queue() {
         return new Queue(queueName, false);
+    }
+
+    @Bean
+    public Queue fileQueue() {
+        return new Queue(fileQueueName, false);
     }
 
     @Bean
@@ -67,5 +76,10 @@ public class Application {
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(queueName);
+    }
+
+    @Bean
+    public Binding fileBinding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(fileQueueName);
     }
 }

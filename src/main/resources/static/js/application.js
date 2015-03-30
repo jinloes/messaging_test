@@ -7,16 +7,6 @@ var app = angular.module('messaging', ['ngRoute', 'emguo.poller', 'ngResource'])
             })
             .otherwise('/');
     })
-    /*.factory('getMessages', function ($resource) {
-        return $resource("http://localhost:8080/messages",
-            {
-                callback: "JSON_CALLBACK",
-                name: "TEST"
-            },
-            {
-                jsonp_get: {method: "JSONP"}
-            });
-    })*/
     .controller('navigation', function ($rootScope, $scope, $http, $location, $route) {
         $scope.tab = function (route) {
             return $route.current && route === $route.current.controller;
@@ -28,6 +18,12 @@ var app = angular.module('messaging', ['ngRoute', 'emguo.poller', 'ngResource'])
         });
         $scope.message = function () {
             $http.get('http://localhost:8080/message');
+        }
+        $scope.sendFile = function () {
+            $http.get('http://localhost:8080/message-file');
+        }
+        $scope.sendIso = function () {
+            $http.get('http://localhost:8080/message-iso');
         }
         var messagePoller = poller.get($resource("http://localhost:8080/messages"), {
             delay: 1000
