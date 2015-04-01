@@ -32,7 +32,11 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-integration')
     compile('org.springframework.boot:spring-boot-starter-amqp')
+    compile('org.springframework.boot:spring-boot-starter-redis')
     compile('org.springframework.integration:spring-integration-java-dsl:1.0.1.RELEASE')
+    compile('org.springframework.integration:spring-integration-redis:4.1.2.RELEASE')
+    compile('org.springframework.integration:spring-integration-amqp:4.1.2.RELEASE')
+    compile('org.mapdb:mapdb:1.0.6')
     testCompile('junit:junit')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

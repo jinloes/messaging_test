@@ -20,6 +20,8 @@ public class Receiver {
 
     @RabbitListener(queues = Application.fileQueueName)
     public void receiveMessage(byte[] message) {
+        Application.MESSAGES.add(new Application.Message("I just received a file of "
+                + message.length + " bytes"));
         LOGGER.info("Received file of size: " + message.length);
     }
 }
