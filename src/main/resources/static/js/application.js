@@ -18,13 +18,16 @@ var app = angular.module('messaging', ['ngRoute', 'emguo.poller', 'ngResource'])
         });
         $scope.message = function () {
             $http.get('http://localhost:8080/message');
-        }
+        };
+        $scope.sendRedisBackedMessage = function () {
+            $http.get('http://localhost:8080/message-redis-backed');
+        };
         $scope.sendFile = function () {
             $http.get('http://localhost:8080/message-file');
-        }
+        };
         $scope.sendIso = function () {
             $http.get('http://localhost:8080/message-iso');
-        }
+        };
         var messagePoller = poller.get($resource("http://localhost:8080/messages"), {
             delay: 1000
         });

@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeResource.class);
     @Autowired private RabbitTemplate rabbitTemplate;
+    @Autowired private MessageChannel redisBackedQueue;
 
     @RequestMapping(value = "/resource")
     public Map<String, Object> home() {
@@ -55,5 +58,11 @@ public class HomeResource {
         byte[] bytes = Files.readAllBytes(path);
         LOGGER.info("Sending file of byte size: {}", bytes.length);
         rabbitTemplate.convertAndSend(Application.fileQueueName, bytes);
+    }
+
+    @RequestMapping(value = "/message-redis-backed")
+    public void sendRedisBackedMessage() {
+        redisBackedQueue.send(MessageBuilder.withPayload("Hello from redis backed queue rabbit!")
+                .build());
     }
 }
