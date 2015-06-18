@@ -1,2 +1,2 @@
 # messaging_test
-Testing out different mechanisms of messaing
+Testing out different mechanisms of messaging
