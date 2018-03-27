@@ -1,46 +1,55 @@
 buildscript {
-    ext {
-        springBootVersion = '1.2.2.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-        maven { url "http://repo.spring.io/release" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+  ext {
+    springBootVersion = '1.5.9.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+    maven { url "https://repo.spring.io/libs-milestone" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'messaging_test'
-    version = '0.1.0'
+  baseName = 'messaging_test'
+  version = '0.1.0'
 }
 
 repositories {
-    mavenCentral()
-    maven { url "http://repo.spring.io/release" }
+  mavenCentral()
+  maven { url "http://repo.spring.io/release" }
+  maven { url "https://repo.spring.io/libs-milestone" }
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
-    compile('org.springframework.boot:spring-boot-starter-redis')
-    compile('org.springframework.integration:spring-integration-java-dsl:1.0.1.RELEASE')
-    compile('org.springframework.integration:spring-integration-redis:4.1.2.RELEASE')
-    compile('org.springframework.integration:spring-integration-amqp:4.1.2.RELEASE')
-    compile('org.mapdb:mapdb:1.0.6')
-    testCompile('junit:junit')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  compile('org.springframework.boot:spring-boot-starter-actuator')
+  compile('org.springframework.boot:spring-boot-starter-integration')
+  compile('org.springframework.boot:spring-boot-starter-amqp')
+  compile('org.springframework.boot:spring-boot-starter-redis')
+  compile('org.springframework.integration:spring-integration-java-dsl:1.0.1.RELEASE')
+  compile('org.springframework.integration:spring-integration-redis:4.1.2.RELEASE')
+  compile('org.springframework.integration:spring-integration-amqp:4.1.2.RELEASE')
+  compile('org.mapdb:mapdb:1.0.6')
+  compile group: 'org.apache.kafka', name: 'kafka-clients', version: '1.0.0'
+  compile group: 'commons-io', name: 'commons-io', version: '2.6'
+  compile group: 'org.jooq', name: 'jooq', version: '3.10.2'
+  compile group: 'io.projectreactor', name: 'reactor-core', version: '3.1.2.RELEASE'
+  compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
+  testCompile('junit:junit')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+  gradleVersion = '2.3'
 }
